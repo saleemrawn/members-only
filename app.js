@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("node:path");
 const expressLayouts = require("express-ejs-layouts");
