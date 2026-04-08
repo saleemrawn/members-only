@@ -20,7 +20,14 @@ const memberValidators = [
     .notEmpty()
     .withMessage("Email address is required")
     .isEmail()
-    .withMessage("Email address must be a valid format e.g. john.mclane@email.com"),
+    .withMessage("Email address must be a valid format e.g. john.mclane@email.com")
+    .custom(async (value) => {
+      const [user] = await db.findUserByEmail(value);
+
+      if (user) {
+        throw new Error("Email already in use");
+      }
+    }),
   body("password")
     .trim()
     .notEmpty()

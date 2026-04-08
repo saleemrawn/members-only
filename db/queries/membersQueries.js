@@ -1,5 +1,10 @@
 const pool = require("../pool");
 
+async function findUserByEmail(emailAddress) {
+  const { rows } = await pool.query("SELECT * FROM users WHERE email_address = $1", [emailAddress]);
+  return rows;
+}
+
 async function createMember({ firstName, lastName, emailAddress, password, membershipId, isAdmin }) {
   await pool.query(
     `INSERT INTO users (first_name, last_name, email_address, password, membership_id, is_admin)
@@ -8,4 +13,4 @@ async function createMember({ firstName, lastName, emailAddress, password, membe
   );
 }
 
-module.exports = { createMember };
+module.exports = { findUserByEmail, createMember };
