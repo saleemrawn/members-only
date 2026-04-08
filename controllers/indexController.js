@@ -52,7 +52,7 @@ async function getCreateMember(req, res) {
 }
 
 async function getLogin(req, res) {
-  res.render("login-form", { title: "Login" });
+  res.render("loginMember", { title: "Login" });
 }
 
 async function createMember(req, res) {
