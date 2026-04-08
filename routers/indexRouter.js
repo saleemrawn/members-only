@@ -6,4 +6,6 @@ indexRouter.get("/", indexController.getAllMessages);
 indexRouter.get("/login", indexController.getLogin);
 indexRouter.get("/sign-up", indexController.getSignUp);
 
+indexRouter.post("/sign-up", indexController.memberValidators, indexController.createMember);
+
 module.exports = indexRouter;
