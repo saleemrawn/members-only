@@ -40,8 +40,8 @@ async function getAllMessages(req, res) {
   res.render("index", { title: "Members Only" });
 }
 
-async function getSignUp(req, res) {
-  res.render("sign-up-form", { title: "Sign Up" });
+async function getCreateMember(req, res) {
+  res.render("createMember", { title: "Sign Up" });
 }
 
 async function getLogin(req, res) {
@@ -70,4 +70,4 @@ async function createMember(req, res) {
   res.redirect("/");
 }
 
-module.exports = { getAllMessages, getSignUp, getLogin, createMember, memberValidators };
+module.exports = { getAllMessages, getCreateMember, getLogin, createMember, memberValidators };
