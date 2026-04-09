@@ -1,6 +1,7 @@
 const { body, validationResult, matchedData } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const db = require("../db/queries/membersQueries");
+const dbMessages = require("../db/queries/messageQueries");
 
 const memberValidators = [
   body("firstName")
@@ -44,7 +45,8 @@ const memberValidators = [
 ];
 
 async function getAllMessages(req, res) {
-  res.render("index", { title: "Members Only" });
+  const messages = await dbMessages.getAllMessages();
+  res.render("index", { title: "Members Only", messages: messages });
 }
 
 async function getCreateMember(req, res) {
