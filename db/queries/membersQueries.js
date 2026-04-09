@@ -1,5 +1,10 @@
 const pool = require("../pool");
 
+async function findUserById(id) {
+  const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+  return rows;
+}
+
 async function findUserByEmail(emailAddress) {
   const { rows } = await pool.query("SELECT * FROM users WHERE email_address = $1", [emailAddress]);
   return rows;
@@ -13,4 +18,4 @@ async function createMember({ firstName, lastName, emailAddress, password, membe
   );
 }
 
-module.exports = { findUserByEmail, createMember };
+module.exports = { findUserById, findUserByEmail, createMember };
