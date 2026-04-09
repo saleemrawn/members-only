@@ -5,6 +5,7 @@ const indexRouter = Router();
 
 indexRouter.get("/", indexController.getAllMessages);
 indexRouter.get("/login", indexController.getLogin);
+indexRouter.get("/logout", indexController.logoutMember);
 indexRouter.get("/sign-up", indexController.getCreateMember);
 
 indexRouter.post("/sign-up", indexController.memberValidators, indexController.createMember);

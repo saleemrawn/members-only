@@ -79,4 +79,14 @@ async function createMember(req, res) {
   res.redirect("/");
 }
 
-module.exports = { getAllMessages, getCreateMember, getLogin, createMember, memberValidators };
+function logoutMember(req, res) {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+  });
+
+  res.redirect("/");
+}
+
+module.exports = { getAllMessages, getCreateMember, getLogin, createMember, logoutMember, memberValidators };
