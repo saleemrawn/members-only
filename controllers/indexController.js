@@ -44,6 +44,15 @@ const memberValidators = [
     .withMessage("Passwords must match"),
 ];
 
+const messageValidators = [
+  body("message")
+    .trim()
+    .notEmpty()
+    .withMessage("Message is required")
+    .isAlphanumeric(undefined, { ignore: " .,!?-—():;&#?£$\"'" })
+    .withMessage("Message can only contain letters, numbers and .,!?-—():;&#?£$\"'"),
+];
+
 async function getAllMessages(req, res) {
   const messages = await dbMessages.getAllMessages();
   res.render("index", { title: "Members Only", messages: messages });
@@ -89,4 +98,31 @@ function logoutMember(req, res) {
   res.redirect("/");
 }
 
-module.exports = { getAllMessages, getCreateMember, getLogin, createMember, logoutMember, memberValidators };
+function getCreateMessage(req, res) {
+  res.render("createMessage", { title: "Create Message" });
+}
+
+async function createMessage(req, res) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).render("createMessage", { title: "Create Message", errors: errors.array() });
+  }
+
+  const { message } = matchedData(req);
+  await dbMessages.createMessage({ message: message, authorId: req.body.authorId });
+
+  res.redirect("/");
+}
+
+module.exports = {
+  getAllMessages,
+  getCreateMember,
+  getLogin,
+  createMember,
+  logoutMember,
+  getCreateMessage,
+  createMessage,
+  memberValidators,
+  messageValidators,
+};

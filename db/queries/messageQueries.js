@@ -9,4 +9,13 @@ async function getAllMessages() {
   return rows;
 }
 
-module.exports = { getAllMessages };
+async function createMessage({ message, authorId }) {
+  await pool.query(
+    `
+    INSERT INTO messages (message, author_id)
+    VALUES ($1, $2);`,
+    [message, authorId],
+  );
+}
+
+module.exports = { getAllMessages, createMessage };
