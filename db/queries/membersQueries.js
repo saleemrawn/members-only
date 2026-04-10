@@ -18,4 +18,15 @@ async function createMember({ firstName, lastName, emailAddress, password, membe
   );
 }
 
-module.exports = { findUserById, findUserByEmail, createMember };
+async function upgradeMemberToPremium(userId) {
+  await pool.query(
+    `
+    UPDATE users
+    SET membership_id = 2,
+        updated_at = NOW()
+    WHERE id = $1`,
+    [userId],
+  );
+}
+
+module.exports = { findUserById, findUserByEmail, createMember, upgradeMemberToPremium };

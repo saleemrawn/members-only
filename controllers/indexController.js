@@ -53,6 +53,8 @@ const messageValidators = [
     .withMessage("Message can only contain letters, numbers and .,!?-—():;&#?£$\"'"),
 ];
 
+const codeValidators = [body("upgradeCode").trim().notEmpty().escape().withMessage("Code is required")];
+
 async function getAllMessages(req, res) {
   const messages = await dbMessages.getAllMessages();
   res.render("index", { title: "Members Only", messages: messages });
@@ -115,6 +117,26 @@ async function createMessage(req, res) {
   res.redirect("/");
 }
 
+function getUpgradeMember(req, res) {
+  res.render("upgradeMember", { title: "Become a Premium Member" });
+}
+
+async function upgradeMemberToPremium(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render("upgradeMember", { title: "Become a Premium Member", errors: errors.array() });
+  }
+
+  const { upgradeCode } = matchedData(req);
+
+  if (upgradeCode !== process.env.UPGRADE_CODE) {
+    return res.status(400).render("upgradeMember", { title: "Become a Premium Member", errors: [{ msg: "Code is invalid" }] });
+  }
+
+  await db.upgradeMemberToPremium(req.body.authorId);
+  res.redirect("/");
+}
+
 module.exports = {
   getAllMessages,
   getCreateMember,
@@ -123,6 +145,9 @@ module.exports = {
   logoutMember,
   getCreateMessage,
   createMessage,
+  getUpgradeMember,
+  upgradeMemberToPremium,
   memberValidators,
   messageValidators,
+  codeValidators,
 };
