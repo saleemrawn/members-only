@@ -83,7 +83,6 @@ async function createMember(req, res) {
     lastName: lastName,
     emailAddress: emailAddress,
     password: hashedPassword,
-    membershipId: req.body.membershipStatus,
     isAdmin: req.body.isAdmin === "on" ? true : false,
   });
 

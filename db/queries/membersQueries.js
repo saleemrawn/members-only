@@ -10,7 +10,9 @@ async function findUserByEmail(emailAddress) {
   return rows;
 }
 
-async function createMember({ firstName, lastName, emailAddress, password, membershipId, isAdmin }) {
+async function createMember({ firstName, lastName, emailAddress, password, isAdmin }) {
+  const membershipId = isAdmin === true ? 2 : 1;
+
   await pool.query(
     `INSERT INTO users (first_name, last_name, email_address, password, membership_id, is_admin)
     VALUES ($1, $2, $3, $4, $5, $6);`,
