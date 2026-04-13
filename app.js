@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("node:path");
 const expressLayouts = require("express-ejs-layouts");
 const indexRouter = require("./routers/indexRouter");
+const errorRouter = require("./routers/errorRouter");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -58,6 +59,15 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
+app.use("/{*splat}", errorRouter);
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  res.status(err.statusCode || 500).render("customError", {
+    title: `${err.statusCode || 500} | ${err.message}`,
+    error: { statusCode: err.statusCode || 500, message: err.message },
+  });
+});
 
 app.listen(8080, (error) => {
   if (error) {
