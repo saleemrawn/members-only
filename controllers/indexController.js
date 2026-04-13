@@ -1,7 +1,7 @@
 const { body, validationResult, matchedData } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const db = require("../db/queries/membersQueries");
-const dbMessages = require("../db/queries/messageQueries");
+const membersDb = require("../db/queries/membersQueries");
+const messagesDb = require("../db/queries/messageQueries");
 
 const memberValidators = [
   body("firstName")
@@ -23,7 +23,7 @@ const memberValidators = [
     .isEmail()
     .withMessage("Email address must be a valid format e.g. john.mclane@email.com")
     .custom(async (value) => {
-      const [user] = await db.findUserByEmail(value);
+      const [user] = await membersDb.findUserByEmail(value);
 
       if (user) {
         throw new Error("Email already in use");
@@ -56,7 +56,7 @@ const messageValidators = [
 const codeValidators = [body("upgradeCode").trim().notEmpty().escape().withMessage("Code is required")];
 
 async function getAllMessages(req, res) {
-  const messages = await dbMessages.getAllMessages();
+  const messages = await messagesDb.getAllMessages();
   res.render("index", { title: "Members Only", messages: messages });
 }
 
@@ -78,7 +78,7 @@ async function createMember(req, res) {
   const { firstName, lastName, emailAddress, password } = matchedData(req);
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.createMember({
+  await membersDb.createMember({
     firstName: firstName,
     lastName: lastName,
     emailAddress: emailAddress,
@@ -111,7 +111,7 @@ async function createMessage(req, res) {
   }
 
   const { message } = matchedData(req);
-  await dbMessages.createMessage({ message: message, authorId: req.body.authorId });
+  await messagesDb.createMessage({ message: message, authorId: req.body.authorId });
 
   res.redirect("/");
 }
@@ -132,12 +132,12 @@ async function upgradeMemberToPremium(req, res) {
     return res.status(400).render("upgradeMember", { title: "Become a Premium Member", errors: [{ msg: "Code is invalid" }] });
   }
 
-  await db.upgradeMemberToPremium(req.body.authorId);
+  await membersDb.upgradeMemberToPremium(req.body.authorId);
   res.redirect("/");
 }
 
 async function deleteMessage(req, res) {
-  await dbMessages.deleteMessageById(req.params.messageId);
+  await messagesDb.deleteMessageById(req.params.messageId);
   res.redirect("/");
 }
 
