@@ -14,5 +14,6 @@ indexRouter.post("/sign-up", indexController.memberValidators, indexController.c
 indexRouter.post("/login", passport.authenticate("local", { successRedirect: "/", failureRedirect: "/login" }));
 indexRouter.post("/create-message", indexController.messageValidators, indexController.createMessage);
 indexRouter.post("/upgrade", indexController.codeValidators, indexController.upgradeMemberToPremium);
+indexRouter.post("/delete/:messageId", indexController.deleteMessage);
 
 module.exports = indexRouter;

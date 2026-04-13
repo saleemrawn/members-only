@@ -136,6 +136,11 @@ async function upgradeMemberToPremium(req, res) {
   res.redirect("/");
 }
 
+async function deleteMessage(req, res) {
+  await dbMessages.deleteMessageById(req.params.messageId);
+  res.redirect("/");
+}
+
 module.exports = {
   getAllMessages,
   getCreateMember,
@@ -146,6 +151,7 @@ module.exports = {
   createMessage,
   getUpgradeMember,
   upgradeMemberToPremium,
+  deleteMessage,
   memberValidators,
   messageValidators,
   codeValidators,
