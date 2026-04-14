@@ -58,7 +58,7 @@ const codeValidators = [body("upgradeCode").trim().notEmpty().escape().withMessa
 
 async function getAllMessages(req, res) {
   const messages = await messagesDb.getAllMessages();
-  res.render("index", { title: "Members Only", messages: messages, formatDistance });
+  res.render("index", { title: "Home", messages: messages, formatDistance });
 }
 
 async function getCreateMember(req, res) {
