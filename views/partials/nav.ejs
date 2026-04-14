@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-lg bg-body-secondary px-3">
+  <div class="container-fluid">
+    <a href="/" class="navbar-brand"><img src="/img/shell.svg" class="me-2" alt="">Clubhouse</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end gap-lg-5" id="navbarSupportedContent">
+      <ul class="navbar-nav gap-lg-1">
+        <% if (locals.currentUser) { %>
+            <li class="nav-item">
+              <a href="/create-message" class="btn btn-primary rounded-start-pill d-none d-lg-flex gap-2"><img src="/img/plus.svg" alt="" class="filter-white" style="width: 1.25rem;">Create Message</a>
+              <a href="/create-message" class="nav-link d-lg-none"><img src="/img/plus.svg" alt="" class="me-2" style="width: 1.25rem;">Create Message</a>
+            </li>
+            <% if (currentUser.membership_id === 1) { %>
+             <li class="nav-item">
+              <a href="/upgrade" class="btn btn-primary rounded-0 d-none d-lg-flex gap-2"><img src="/img/crown.svg" alt="" class="filter-white" style="width: 1.25rem;">Become a Premium Member</a>
+              <a href="/upgrade" class="nav-link d-lg-none"><img src="/img/crown.svg" alt="" class="me-2" style="width: 1.25rem;">Become a Premium Member</a>
+            </li>
+            <% } %>
+            <li class="nav-item">
+              <a href="/logout" class="btn btn-secondary rounded-end-pill d-none d-lg-flex gap-2"><img src="/img/log-out.svg" alt="" class="filter-white" style="width: 1.25rem;">Logout</a>
+              <a href="/logout" class="nav-link d-lg-none"><img src="/img/log-out.svg" alt="" class="me-2" style="width: 1.25rem;">Logout</a>
+            </li>
+        <% } else { %>
+            <li class="nav-item">
+              <a href="/sign-up" class="btn btn-primary d-none d-lg-flex rounded-start-pill gap-2"><img src="/img/plus.svg" alt="" class="filter-white" style="width: 1.25rem;">Sign-Up</a>
+              <a href="/sign-up" class="nav-link d-lg-none gap-2"><img src="/img/plus.svg" alt="" class="me-2" style="width: 1.25rem;">Sign-Up</a>
+            </li>
+            <li class="nav-item">
+              <a href="/login" class="btn btn-primary d-none d-lg-flex rounded-end-pill gap-2"><img src="/img/log-in.svg" alt="" class="filter-white" style="width: 1.25rem;">Login</a>
+              <a href="/login" class="nav-link d-lg-none gap-2"><img src="/img/log-in.svg" alt="" class="me-2" style="width: 1.25rem;">Login</a>
+            </li>
+        <% } %>
+      </ul>
+
+      <% if (locals.currentUser) { %>
+        <div class="d-flex d-none d-lg-block">
+          <%= currentUser.first_name %> <%= currentUser.last_name %> | <%= currentUser.membership_id === 1 ? "Basic" : "Premium" %> Member
+        </div>
+        <% } else { %>
+          <div class="d-flex d-none d-lg-block">
+            Not logged in
+          </div>
+        <% } %>
+    </div>
+  </div>
+</nav>
