@@ -1,0 +1,15 @@
+<div class="container-lg mt-md-5">
+  <h1 class="mb-3"><%= title %></h1>
+  <%- include("./partials/errors.ejs") %>
+  <form action="/create-message" method="post">
+    <input type="hidden" name="authorId" value="<%= currentUser.id %>" />
+    <div class="mb-3">
+      <label for="message" class="form-label">Message</label>
+      <textarea name="message" id="message" class="form-control" minlength="5" maxlength="500" style="resize: vertical"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary d-flex">
+      <img src="/img/send-horizontal.svg" alt="" class="filter-white me-2" style="width: 1.25rem" />
+      Post
+    </button>
+  </form>
+</div>
