@@ -2,6 +2,7 @@ const { body, validationResult, matchedData } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const membersDb = require("../db/queries/membersQueries");
 const messagesDb = require("../db/queries/messageQueries");
+const { formatDistance } = require("date-fns");
 
 const memberValidators = [
   body("firstName")
@@ -57,7 +58,7 @@ const codeValidators = [body("upgradeCode").trim().notEmpty().escape().withMessa
 
 async function getAllMessages(req, res) {
   const messages = await messagesDb.getAllMessages();
-  res.render("index", { title: "Members Only", messages: messages });
+  res.render("index", { title: "Members Only", messages: messages, formatDistance });
 }
 
 async function getCreateMember(req, res) {
