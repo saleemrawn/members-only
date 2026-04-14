@@ -1,0 +1,17 @@
+<div class="container-lg mt-md-5">
+  <h1 class="mb-3"><%= title %></h1>
+  <p class="mb-4">Enter the secret code below to upgrade your account to Premium.</p>
+
+  <%- include("./partials/errors.ejs") %>
+  <form action="/upgrade" method="post">
+    <input type="hidden" name="authorId" value="<%= locals.currentUser.id %> " />
+    <div class="mb-3">
+      <label for="upgradeCode" class="form-label">Code</label>
+      <input type="text" name="upgradeCode" id="upgradeCode" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary d-flex gap-2">
+      <img src="/img/crown.svg" alt="" class="filter-white" style="width: 1.25rem" />
+      Upgrade
+    </button>
+  </form>
+</div>
