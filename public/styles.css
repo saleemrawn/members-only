@@ -1,0 +1,8 @@
+body {
+  font-family: "Google Sans", sans-serif;
+  font-size: 16px;
+}
+
+.filter-white {
+  filter: brightness(0) invert(1);
+}
